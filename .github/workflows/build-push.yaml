@@ -1,0 +1,29 @@
+name: build-push
+run-name: Build and Push Docker Image
+
+## Triggers
+
+on:
+  workflow_dispatch:
+
+## Jobs
+jobs:
+  build-push:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: cloning the repository
+        uses: actions/checkout@v3
+
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: hossam9hassan
+          password: ${{ secrets.DOCKER_CREDS }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v3
+        with:
+          context: .
+          push: true
+          tags: hossam9hassan/nginx-app:latest
